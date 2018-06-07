@@ -11,10 +11,7 @@ public class RookieResolver {
 		Player player = GetPlayerStats(url);
 		
 		if(player == null)
-		{
-			System.out.printf("Invalid url: %s\n", url);
-			System.exit(1);
-		}
+			return null;
 		
 		player.SetRookieStatus(IsRookie(player));
 		// System.out.printf("ABs: %d, IP: %.1f, Service Time: %d\n", player.GetAtBats(), player.GetInningsPitched(), player.GetServiceTime());

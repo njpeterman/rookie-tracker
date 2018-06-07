@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spreadsheet_security_info>
+	<spreadsheet_id>random_id</spreadsheet_id>
+	<api_key>random_api_key</api_key>
+	<client_secret_relative_file_path>anywhere.json</client_secret_relative_file_path>
+</spreadsheet_security_info>

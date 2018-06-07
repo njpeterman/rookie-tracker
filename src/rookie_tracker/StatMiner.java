@@ -18,6 +18,9 @@ public class StatMiner {
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
+		} catch(Exception e)
+		{
+			return null;
 		}
 	}
 	
