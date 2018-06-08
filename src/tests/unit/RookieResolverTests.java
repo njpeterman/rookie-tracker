@@ -32,7 +32,7 @@ class RookieResolverTests {
 	
 	@Test
 	void testResolveRookiePlayerHasRookieStatus() {
-		player = new Player(10, 0, 3);
+		player = new Player(10, 40);
 		when(miner.GetPlayerStats(document)).thenReturn(player);
 		
 		Player actualPlayer = rookieResolver.ResolveRookie("fakewebsite.com");
@@ -42,7 +42,7 @@ class RookieResolverTests {
 	
 	@Test
 	void testResolveRookiePlayerHasTooManyAtBats() {
-		player = new Player(131, 0, 3);
+		player = new Player(131, 0);
 		when(miner.GetPlayerStats(document)).thenReturn(player);
 		
 		Player actualPlayer = rookieResolver.ResolveRookie("fakewebsite.com");
@@ -52,17 +52,7 @@ class RookieResolverTests {
 	
 	@Test
 	void testResolveRookiePlayerHasTooManyInningsPitched() {
-		player = new Player(0, 50.1, 3);
-		when(miner.GetPlayerStats(document)).thenReturn(player);
-		
-		Player actualPlayer = rookieResolver.ResolveRookie("fakewebsite.com");
-		
-		assertFalse(actualPlayer.GetRookieStatus());
-	}
-	
-	@Test
-	void testResolveRookiePlayerHasTooManyServiceTimeDays() {
-		player = new Player(129, 10.1, 46);
+		player = new Player(0, 50.1);
 		when(miner.GetPlayerStats(document)).thenReturn(player);
 		
 		Player actualPlayer = rookieResolver.ResolveRookie("fakewebsite.com");

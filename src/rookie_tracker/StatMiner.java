@@ -30,7 +30,6 @@ public class StatMiner {
 	
 		player.SetAtBats(ExtractAtBats(doc));
 		player.SetInningsPitched(ExtractInningsPitched(doc));
-		player.SetServiceTime(ExtractServiceTime(doc));
 		
 		return player;
 	}
@@ -53,18 +52,6 @@ public class StatMiner {
 			return 0;
 		
 		return Double.parseDouble(h4.parent().children().last().text());
-	}
-	
-	private int ExtractServiceTime(Document doc)
-	{
-		Element h4 = doc.select("p:contains(Service Time)").first();
-		
-		if(h4 == null)
-			return 0;
-		else {
-			String sTime = h4.text().split("[:]+")[1].split("[ ]+")[1];
-			return (int) (Double.parseDouble(sTime) * 1000);
-		}
 	}
 	
 }

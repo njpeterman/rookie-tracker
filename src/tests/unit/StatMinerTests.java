@@ -59,24 +59,6 @@ class StatMinerTests {
 		double actual = miner.GetPlayerStats(pitcherDoc).GetInningsPitched();
 		
 		assertEquals(expected, actual);
-	}
-	
-	@Test
-	void testExtractServiceTimeForBatter() {
-		int expected = 5168; 
-		int actual = miner.GetPlayerStats(batterDoc).GetServiceTime();
-		
-		assertEquals(expected, actual);
-	}
-	
-	@Test
-	void testExtractServiceTimeForPitcher() {
-		int expected = 7061; 
-		int actual = miner.GetPlayerStats(pitcherDoc).GetServiceTime();
-		
-		assertEquals(expected, actual);
-	}
-	
-	
+	}	
 
 }

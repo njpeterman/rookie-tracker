@@ -24,12 +24,6 @@ class UiChangeChecker {
 	}
 	
 	@Test
-	void testServiceTimeUIHasNotChanged() {
-		Player player = resolver.ResolveRookie("https://www.baseball-reference.com/players/c/correca01.shtml");
-		assertNotEquals(0, player.GetServiceTime());
-	}
-	
-	@Test
 	void testInningsPitchedUIHasNotChanged() {
 		Player player = resolver.ResolveRookie("https://www.baseball-reference.com/players/n/nolaaa01.shtml");
 		assertNotEquals(0.0, player.GetInningsPitched());
