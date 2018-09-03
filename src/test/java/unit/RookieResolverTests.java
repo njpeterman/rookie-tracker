@@ -1,19 +1,19 @@
-package tests.unit;
+package test.java.unit;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+import org.junit.BeforeClass;
 
-import rookie_tracker.Player;
-import rookie_tracker.RookieResolver;
-import rookie_tracker.StatMiner;
+import main.java.Player;
+import main.java.RookieResolver;
+import main.java.StatMiner;
 
 import static org.mockito.Mockito.*;
 
-class RookieResolverTests {
+public class RookieResolverTests {
 
 	static String html = "<html></html>";
 	static RookieResolver rookieResolver;
@@ -21,8 +21,8 @@ class RookieResolverTests {
 	static StatMiner miner; 
 	Player player;
 
-	@BeforeAll
-	static void oneTimeSetUp() {
+	@BeforeClass
+	public static void oneTimeSetUp() {
 		document = Jsoup.parse(html);
 		miner = mock(StatMiner.class);
 		when(miner.GetDocument(anyString())).thenReturn(document);
@@ -31,7 +31,7 @@ class RookieResolverTests {
 	}
 	
 	@Test
-	void testResolveRookiePlayerHasRookieStatus() {
+	public void testResolveRookiePlayerHasRookieStatus() {
 		player = new Player(10, 40);
 		when(miner.GetPlayerStats(document)).thenReturn(player);
 		
@@ -41,7 +41,7 @@ class RookieResolverTests {
 	}
 	
 	@Test
-	void testResolveRookiePlayerHasTooManyAtBats() {
+	public void testResolveRookiePlayerHasTooManyAtBats() {
 		player = new Player(131, 0);
 		when(miner.GetPlayerStats(document)).thenReturn(player);
 		
@@ -51,7 +51,7 @@ class RookieResolverTests {
 	}
 	
 	@Test
-	void testResolveRookiePlayerHasTooManyInningsPitched() {
+	public void testResolveRookiePlayerHasTooManyInningsPitched() {
 		player = new Player(0, 50.1);
 		when(miner.GetPlayerStats(document)).thenReturn(player);
 		

@@ -1,32 +1,32 @@
-package tests.unit;
+package test.java.unit;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
-import rookie_tracker.*;
+import org.junit.Test;
+import org.junit.Before;
 
+import main.java.FileIOHandler;
 import static org.mockito.Mockito.*;
 
-class FileIOHandlerTests {
+public class FileIOHandlerTests {
 
 	FileIOHandler handler;
 	BufferedReader reader;
 	PrintWriter writer;
 	
-	@BeforeEach
-	void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		reader = mock(BufferedReader.class);
 		writer = mock(PrintWriter.class);
 		handler = new FileIOHandler(reader, writer);
 	}
-
+	
 	@Test()
-	void testReadLine() throws IOException
+	public void testReadLine() throws IOException
 	{
 		when(reader.readLine()).thenReturn("random");
 		
@@ -34,7 +34,7 @@ class FileIOHandlerTests {
 	}
 	
 	@Test()
-	void testWriteLine() throws IOException
+	public void testWriteLine() throws IOException
 	{	
 		handler.WriteLine("random");
 		
@@ -42,7 +42,7 @@ class FileIOHandlerTests {
 	}
 	
 	@Test() 
-	void testCloseAllFiles() throws IOException
+	public void testCloseAllFiles() throws IOException
 	{
 		handler.CloseFiles();
 		

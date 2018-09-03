@@ -1,0 +1,28 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+mainClassName = 'main.java.MilbRostersUpdater'
+
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+    compile group: 'org.jsoup', name: 'jsoup', version: '1.11.2'
+    compile group: 'com.google.api-client', name: 'google-api-client', version: '1.23.0'
+    compile group: 'com.google.api-client', name: 'google-api-client-jackson2', version: '1.23.0'
+    compile group: 'com.google.api-client', name: 'google-api-client-servlet', version: '1.23.0'
+    compile group: 'com.google.apis', name: 'google-api-services-sheets', version: 'v4-rev539-1.23.0'
+    compile group: 'com.google.http-client', name: 'google-http-client', version: '1.23.0'
+    compile group: 'com.google.http-client', name: 'google-http-client-jackson2', version: '1.23.0'
+    compile group: 'com.google.oauth-client', name: 'google-oauth-client', version: '1.23.0'
+    compile group: 'com.google.oauth-client', name: 'google-oauth-client-jetty', version: '1.23.0'
+    
+    testCompile group: 'org.mockito', name: 'mockito-all', version: '1.10.19'
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.2.0'
+	testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+

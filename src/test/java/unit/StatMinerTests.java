@@ -1,4 +1,4 @@
-package tests.unit;
+package test.java.unit;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -7,19 +7,19 @@ import java.io.IOException;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+import org.junit.BeforeClass;
 
-import rookie_tracker.StatMiner;
+import main.java.StatMiner;
 
-class StatMinerTests {
+public class StatMinerTests {
 	
 	static Document batterDoc;
 	static Document pitcherDoc;
 	static StatMiner miner;
 	
-	@BeforeAll
-	static void oneTimeSetUp() throws IOException {
+	@BeforeClass
+	public static void oneTimeSetUp() throws IOException {
 		File batterFile = new File("batter_info.htm");
 		batterDoc = Jsoup.parse(batterFile, null);
 		
@@ -30,7 +30,7 @@ class StatMinerTests {
 	}
 
 	@Test
-	void testExtractAtBatsForBatter() {
+	public void testExtractAtBatsForBatter() {
 		int expected = 3520; 
 		int actual = miner.GetPlayerStats(batterDoc).GetAtBats();
 		
@@ -38,7 +38,7 @@ class StatMinerTests {
 	}
 	
 	@Test
-	void testExtractAtBatsForPitcher() {
+	public void testExtractAtBatsForPitcher() {
 		int expected = 0; // not technically correct, but works fine for now
 		int actual = miner.GetPlayerStats(pitcherDoc).GetAtBats();
 		
@@ -46,7 +46,7 @@ class StatMinerTests {
 	}
 	
 	@Test
-	void testExtractInningsPitchedForBatter() {
+	public void testExtractInningsPitchedForBatter() {
 		double expected = 0; 
 		double actual = miner.GetPlayerStats(batterDoc).GetInningsPitched();
 		
@@ -54,7 +54,7 @@ class StatMinerTests {
 	}
 	
 	@Test
-	void testExtractInningsPitchedForPitcher() {
+	public void testExtractInningsPitchedForPitcher() {
 		double expected = 1405.1; 
 		double actual = miner.GetPlayerStats(pitcherDoc).GetInningsPitched();
 		

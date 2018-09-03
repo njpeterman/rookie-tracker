@@ -1,4 +1,4 @@
-package tests.integration;
+package test.java.integration;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -11,17 +11,17 @@ import java.util.UUID;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.xml.sax.SAXException;
 
 import com.google.api.services.sheets.v4.model.ValueRange;
 
-import rookie_tracker.GoogleSheetsAPIWrapper;
-import rookie_tracker.SecurityInfoXmlParser;
+import main.java.GoogleSheetsAPIWrapper;
+import main.java.SecurityInfoXmlParser;
 
-class GoogleSheetsAPIWrapperTests {
+public class GoogleSheetsAPIWrapperTests {
 
 	// MiLB Rosters Spreadsheet Data
 	private static String mSpreadsheetId;
@@ -39,8 +39,8 @@ class GoogleSheetsAPIWrapperTests {
 	private static String cell5;
 	private static String cell6;
 	
-	@BeforeEach
-	void setUp() {
+	@Before
+	public void setUp() {
 		cell1 = UUID.randomUUID().toString();
 		cell2 = UUID.randomUUID().toString();
 		cell3 = UUID.randomUUID().toString();
@@ -49,8 +49,8 @@ class GoogleSheetsAPIWrapperTests {
 		cell6 = UUID.randomUUID().toString();
 	}
 	
-	@BeforeAll
-	static void oneTimeSetUp() throws SAXException, IOException, ParserConfigurationException {
+	@BeforeClass
+	public static void oneTimeSetUp() throws SAXException, IOException, ParserConfigurationException {
 		SecurityInfoXmlParser parser = new SecurityInfoXmlParser("milb_roster_spreadsheet_security_info.xml");
 		parser.OpenXmlFile();
 		mSpreadsheetId = parser.GetSpreadsheetId();
@@ -60,7 +60,7 @@ class GoogleSheetsAPIWrapperTests {
 	}
 
 	@Test
-	void testUpdateBatchValuesSingleRange() throws IOException, GeneralSecurityException {
+	public void testUpdateBatchValuesSingleRange() throws IOException, GeneralSecurityException {
 		
 		List<List<Object>> expectedValues = new ArrayList<>(Arrays.asList(
 			new ArrayList<>(Arrays.asList(cell1, cell2)), // row-major order
@@ -85,7 +85,7 @@ class GoogleSheetsAPIWrapperTests {
 	}
 	
 	@Test
-	void testUpdateBatchValuesMultipleRanges() throws IOException, GeneralSecurityException {
+	public void testUpdateBatchValuesMultipleRanges() throws IOException, GeneralSecurityException {
 		List<List<List<Object>>> expectedValues = new ArrayList<>(Arrays.asList(
 			Arrays.asList(new ArrayList<>(Arrays.asList(cell1, cell2))), // row-major order
 			Arrays.asList(new ArrayList<>(Arrays.asList(cell3, cell4))),
@@ -113,7 +113,7 @@ class GoogleSheetsAPIWrapperTests {
 	}
 	
 	@Test
-	void testGetBatchValuesSingleRange() throws IOException, GeneralSecurityException {
+	public void testGetBatchValuesSingleRange() throws IOException, GeneralSecurityException {
 		List<List<Object>> expectedValues = new ArrayList<>(Arrays.asList(
 			new ArrayList<>(Arrays.asList("test", "data")), // row-major order
 			new ArrayList<>(Arrays.asList("24%1", "TRUE")),
@@ -132,7 +132,7 @@ class GoogleSheetsAPIWrapperTests {
 	}
 	
 	@Test
-	void testGetBatchValuesMultipleRanges() throws IOException, GeneralSecurityException {
+	public void testGetBatchValuesMultipleRanges() throws IOException, GeneralSecurityException {
 		List<List<List<Object>>> expectedValues = new ArrayList<>(Arrays.asList(
 			Arrays.asList(new ArrayList<>(Arrays.asList("test", "data"))), // row-major order
 			Arrays.asList(new ArrayList<>(Arrays.asList("24%1", "TRUE"))),

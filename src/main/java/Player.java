@@ -1,4 +1,4 @@
-package rookie_tracker;
+package main.java;
 
 
 public class Player {

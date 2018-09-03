@@ -1,4 +1,4 @@
-package tests.integration;
+package test.java.integration;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -6,39 +6,39 @@ import java.io.IOException;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+import org.junit.BeforeClass;
 import org.xml.sax.SAXException;
 
-import rookie_tracker.SecurityInfoXmlParser;
+import main.java.SecurityInfoXmlParser;
 
-class SecurityInfoXmlParserTests {
+public class SecurityInfoXmlParserTests {
 
 	private static String xmlFilePath = "test_security_info.xml";
 	private static SecurityInfoXmlParser parser; 
 
-	@BeforeAll
-	static void oneTimeSetUp() throws SAXException, IOException, ParserConfigurationException {
+	@BeforeClass
+	public static void oneTimeSetUp() throws SAXException, IOException, ParserConfigurationException {
 		parser = new SecurityInfoXmlParser(xmlFilePath);
 		parser.OpenXmlFile();
 	}
 	
 	@Test
-	void testGetSpreadsheetId() {
+	public void testGetSpreadsheetId() {
 		String expected = "random_id";
 		String actual = parser.GetSpreadsheetId();
 		assertEquals(expected, actual);
 	}
 	
 	@Test
-	void testGetApiKey() {
+	public void testGetApiKey() {
 		String expected = "random_api_key";
 		String actual = parser.GetApiKey();
 		assertEquals(expected, actual);
 	}
 	
 	@Test
-	void testGetClientSecretFilePath() {
+	public void testGetClientSecretFilePath() {
 		String expected = "anywhere.json";
 		String actual = parser.GetClientSecretFilePath();
 		assertEquals(expected, actual);
