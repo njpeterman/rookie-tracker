@@ -1,25 +1,20 @@
-package test.java.integration;
+package rookie.tracker.integration;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.io.IOException;
-import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.junit.Test;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.xml.sax.SAXException;
 
 import com.google.api.services.sheets.v4.model.ValueRange;
 
-import main.java.GoogleSheetsAPIWrapper;
-import main.java.SecurityInfoXmlParser;
+import rookie.tracker.service.SecurityInfoXmlParser;
+import rookie.tracker.service.GoogleSheetsAPIWrapper;
 
 public class GoogleSheetsAPIWrapperTests {
 
@@ -50,17 +45,17 @@ public class GoogleSheetsAPIWrapperTests {
 	}
 	
 	@BeforeClass
-	public static void oneTimeSetUp() throws SAXException, IOException, ParserConfigurationException {
+	public static void oneTimeSetUp() throws Exception {
 		SecurityInfoXmlParser parser = new SecurityInfoXmlParser("milb_roster_spreadsheet_security_info.xml");
-		parser.OpenXmlFile();
-		mSpreadsheetId = parser.GetSpreadsheetId();
-		mApiKey = parser.GetApiKey();
-		mClientSecretRelativeFilePath = parser.GetClientSecretFilePath();
+		parser.openXmlFile();
+		mSpreadsheetId = parser.getSpreadsheetId();
+		mApiKey = parser.getApiKey();
+		mClientSecretRelativeFilePath = parser.getClientSecretFilePath();
 		
 	}
 
 	@Test
-	public void testUpdateBatchValuesSingleRange() throws IOException, GeneralSecurityException {
+	public void testUpdateBatchValuesSingleRange() throws Exception {
 		
 		List<List<Object>> expectedValues = new ArrayList<>(Arrays.asList(
 			new ArrayList<>(Arrays.asList(cell1, cell2)), // row-major order
@@ -73,10 +68,10 @@ public class GoogleSheetsAPIWrapperTests {
 		data.get(0).setRange(mSingleRange2);
 		
 		GoogleSheetsAPIWrapper wrapper = new GoogleSheetsAPIWrapper();
-		wrapper.UpdateBatchValues(mSpreadsheetId, mApiKey, mClientSecretRelativeFilePath, data);
+		wrapper.updateBatchValues(mSpreadsheetId, mClientSecretRelativeFilePath, data);
 		
 		List<List<Object>> actualValues = 
-				wrapper.GetBatchValues(mSpreadsheetId, mApiKey, mClientSecretRelativeFilePath, new ArrayList<>(Arrays.asList(mSingleRange2)))
+				wrapper.getBatchValues(mSpreadsheetId, mApiKey, mClientSecretRelativeFilePath, new ArrayList<>(Arrays.asList(mSingleRange2)))
 				.getValueRanges()
 				.get(0)
 				.getValues();
@@ -85,7 +80,7 @@ public class GoogleSheetsAPIWrapperTests {
 	}
 	
 	@Test
-	public void testUpdateBatchValuesMultipleRanges() throws IOException, GeneralSecurityException {
+	public void testUpdateBatchValuesMultipleRanges() throws Exception {
 		List<List<List<Object>>> expectedValues = new ArrayList<>(Arrays.asList(
 			Arrays.asList(new ArrayList<>(Arrays.asList(cell1, cell2))), // row-major order
 			Arrays.asList(new ArrayList<>(Arrays.asList(cell3, cell4))),
@@ -101,10 +96,10 @@ public class GoogleSheetsAPIWrapperTests {
 		}
 		
 		GoogleSheetsAPIWrapper wrapper = new GoogleSheetsAPIWrapper();
-		wrapper.UpdateBatchValues(mSpreadsheetId, mApiKey, mClientSecretRelativeFilePath, data);
+		wrapper.updateBatchValues(mSpreadsheetId, mClientSecretRelativeFilePath, data);
 		
 		List<List<List<Object>>> actualValuesList = new ArrayList<>();
-		List<ValueRange> valueRanges = wrapper.GetBatchValues(mSpreadsheetId, mApiKey, mClientSecretRelativeFilePath, mMultipleRanges2)
+		List<ValueRange> valueRanges = wrapper.getBatchValues(mSpreadsheetId, mApiKey, mClientSecretRelativeFilePath, mMultipleRanges2)
 				.getValueRanges();
 		for (ValueRange v : valueRanges) 
 			actualValuesList.add(v.getValues());
@@ -113,7 +108,7 @@ public class GoogleSheetsAPIWrapperTests {
 	}
 	
 	@Test
-	public void testGetBatchValuesSingleRange() throws IOException, GeneralSecurityException {
+	public void testGetBatchValuesSingleRange() throws Exception {
 		List<List<Object>> expectedValues = new ArrayList<>(Arrays.asList(
 			new ArrayList<>(Arrays.asList("test", "data")), // row-major order
 			new ArrayList<>(Arrays.asList("24%1", "TRUE")),
@@ -123,7 +118,7 @@ public class GoogleSheetsAPIWrapperTests {
 		GoogleSheetsAPIWrapper wrapper = new GoogleSheetsAPIWrapper();
 		
 		List<List<Object>> actualValues = 
-				wrapper.GetBatchValues(mSpreadsheetId, mApiKey, mClientSecretRelativeFilePath, mSingleRange1)
+				wrapper.getBatchValues(mSpreadsheetId, mApiKey, mClientSecretRelativeFilePath, mSingleRange1)
 				.getValueRanges()
 				.get(0)
 				.getValues();
@@ -132,7 +127,7 @@ public class GoogleSheetsAPIWrapperTests {
 	}
 	
 	@Test
-	public void testGetBatchValuesMultipleRanges() throws IOException, GeneralSecurityException {
+	public void testGetBatchValuesMultipleRanges() throws Exception {
 		List<List<List<Object>>> expectedValues = new ArrayList<>(Arrays.asList(
 			Arrays.asList(new ArrayList<>(Arrays.asList("test", "data"))), // row-major order
 			Arrays.asList(new ArrayList<>(Arrays.asList("24%1", "TRUE"))),
@@ -143,7 +138,7 @@ public class GoogleSheetsAPIWrapperTests {
 	
 		
 		List<List<List<Object>>> actualValuesList = new ArrayList<>();
-		List<ValueRange> valueRanges = wrapper.GetBatchValues(mSpreadsheetId, mApiKey, mClientSecretRelativeFilePath, mMultipleRanges1)
+		List<ValueRange> valueRanges = wrapper.getBatchValues(mSpreadsheetId, mApiKey, mClientSecretRelativeFilePath, mMultipleRanges1)
 				.getValueRanges();
 		for (ValueRange v : valueRanges) 
 			actualValuesList.add(v.getValues());

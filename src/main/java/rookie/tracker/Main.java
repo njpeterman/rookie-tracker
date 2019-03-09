@@ -1,4 +1,4 @@
-package main.java;
+package rookie.tracker;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -11,81 +11,85 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import com.google.api.services.sheets.v4.model.ValueRange;
+import rookie.tracker.model.Player;
+import rookie.tracker.service.GoogleSheetsAPIWrapper;
+import rookie.tracker.service.RookieResolver;
+import rookie.tracker.service.SecurityInfoXmlParser;
 
-public class MilbRostersUpdater {
+public class Main {
 
 	private static String[] playerLinkRanges = {
-			"C2:G2", // team 1
-			"C9:G9", // team 2
-			"C16:G16", // ...
-			"C23:G23",
-			"C30:G30",
-			"C37:G37",
-			"C44:G44",
-			"C51:G51",
-			"C58:G58",
-			"C65:G65",
-			"C72:G72",
-			"C79:G79", // team 12
+			"C2:J2", // team 1
+			"C9:J9", // team 2
+			"C16:J16", // ...
+			"C23:J23",
+			"C30:J30",
+			"C37:J37",
+			"C44:J44",
+			"C51:J51",
+			"C58:J58",
+			"C65:J65",
+			"C72:J72",
+			"C79:J79", // team 12
 		};
 	
 	private static String[] playerAtBatsRanges = {
-			"C3:G3", // team 1
-			"C10:G10", // team 2
-			"C17:G17", // ...
-			"C24:G24",
-			"C31:G31",
-			"C38:G38",
-			"C45:G45",
-			"C52:G52",
-			"C59:G59",
-			"C66:G66",
-			"C73:G73",
-			"C80:G80", // team 12
+			"C3:J3", // team 1
+			"C10:J10", // team 2
+			"C17:J17", // ...
+			"C24:J24",
+			"C31:J31",
+			"C38:J38",
+			"C45:J45",
+			"C52:J52",
+			"C59:J59",
+			"C66:J66",
+			"C73:J73",
+			"C80:J80", // team 12
 	};
 	
 	private static String[] playerInningsPitchedRanges = {
-			"C4:G4", // team 1
-			"C11:G11", // team 2
-			"C18:G18", // ...
-			"C25:G25",
-			"C32:G32",
-			"C39:G39",
-			"C46:G46",
-			"C53:G53",
-			"C60:G60",
-			"C67:G67",
-			"C74:G74",
-			"C81:G81", // team 12
+			"C4:J4", // team 1
+			"C11:J11", // team 2
+			"C18:J18", // ...
+			"C25:J25",
+			"C32:J32",
+			"C39:J39",
+			"C46:J46",
+			"C53:J53",
+			"C60:J60",
+			"C67:J67",
+			"C74:J74",
+			"C81:J81", // team 12
 	};
 	
 	private static String[] playerRookieStatusRanges = {
-			"C6:G6", // team 1
-			"C13:G13", // team 2
-			"C20:G20", // ...
-			"C27:G27",
-			"C34:G34",
-			"C41:G41",
-			"C48:G48",
-			"C55:G55",
-			"C62:G62",
-			"C69:G69",
-			"C76:G76",
-			"C83:G83", // team 12
+			"C6:J6", // team 1
+			"C13:J13", // team 2
+			"C20:J20", // ...
+			"C27:J27",
+			"C34:J34",
+			"C41:J41",
+			"C48:J48",
+			"C55:J55",
+			"C62:J62",
+			"C69:J69",
+			"C76:J76",
+			"C83:J83", // team 12
 	};
 	
 	public static void main(String[] args) throws IOException, GeneralSecurityException, SAXException, ParserConfigurationException {
 		// Get info about spreadsheet ID, API key, and client secret
 		SecurityInfoXmlParser xmlFileParser = new SecurityInfoXmlParser("milb_roster_spreadsheet_security_info.xml");
-		xmlFileParser.OpenXmlFile();
-		String spreadsheetId = xmlFileParser.GetSpreadsheetId();
-		String apiKey = xmlFileParser.GetApiKey();
-		String clientSecretFilePath = xmlFileParser.GetClientSecretFilePath();
+		xmlFileParser.openXmlFile();
+		String spreadsheetId = xmlFileParser.getSpreadsheetId();
+		String apiKey = xmlFileParser.getApiKey();
+		String clientSecretFilePath = xmlFileParser.getClientSecretFilePath();
 		
 		// Get the Baseball Reference Player Links for each team
 		GoogleSheetsAPIWrapper wrapper = new GoogleSheetsAPIWrapper();
 		List<ValueRange> response = 
-				wrapper.GetBatchValues(spreadsheetId, apiKey, clientSecretFilePath, new ArrayList<>(Arrays.asList(playerLinkRanges))).getValueRanges();
+				wrapper.getBatchValues(spreadsheetId, apiKey, clientSecretFilePath, new ArrayList<>(Arrays.asList(playerLinkRanges))).getValueRanges();
 		
 		RookieResolver resolver = new RookieResolver();
 
@@ -108,11 +112,11 @@ public class MilbRostersUpdater {
 			List<Object> rookieStatus = new ArrayList<>();
 			
 			for (Object playerLink : playerLinks) {
-				Player playerStats = resolver.ResolveRookie(playerLink.toString());
+				Player playerStats = resolver.resolveRookie(playerLink.toString());
 				if(playerStats != null) {
-					atBats.add(Integer.toString(playerStats.GetAtBats()));
-					inningsPitched.add(Double.toString(playerStats.GetInningsPitched()));
-					rookieStatus.add(Boolean.toString(playerStats.GetRookieStatus()).toUpperCase());
+					atBats.add(Integer.toString(playerStats.getAtBats()));
+					inningsPitched.add(Double.toString(playerStats.getInningsPitched()));
+					rookieStatus.add(Boolean.toString(playerStats.isRookie()).toUpperCase());
 				} else {
 					atBats.add("N/A");
 					inningsPitched.add("N/A");
@@ -121,9 +125,9 @@ public class MilbRostersUpdater {
 				
 			}
 			
-			atBatsVR.setValues(new ArrayList<List<Object>>(Arrays.asList(atBats)));
-			inningsPitchedVR.setValues(new ArrayList<List<Object>>(Arrays.asList(inningsPitched)));
-			rookieStatusVR.setValues(new ArrayList<List<Object>>(Arrays.asList(rookieStatus)));
+			atBatsVR.setValues(new ArrayList<>(Arrays.asList(atBats)));
+			inningsPitchedVR.setValues(new ArrayList<>(Arrays.asList(inningsPitched)));
+			rookieStatusVR.setValues(new ArrayList<>(Arrays.asList(rookieStatus)));
 			
 			atBatsVR.setRange(playerAtBatsRanges[i]);
 			inningsPitchedVR.setRange(playerInningsPitchedRanges[i]);
@@ -134,9 +138,9 @@ public class MilbRostersUpdater {
 			playerRookieStatusData.add(rookieStatusVR);
 		}
 	
-		wrapper.UpdateBatchValues(spreadsheetId, apiKey, clientSecretFilePath, playerAtBatsData);
-		wrapper.UpdateBatchValues(spreadsheetId, apiKey, clientSecretFilePath, playerInningsPitchedData);
-		wrapper.UpdateBatchValues(spreadsheetId, apiKey, clientSecretFilePath, playerRookieStatusData);		
+		wrapper.updateBatchValues(spreadsheetId, clientSecretFilePath, playerAtBatsData);
+		wrapper.updateBatchValues(spreadsheetId, clientSecretFilePath, playerInningsPitchedData);
+		wrapper.updateBatchValues(spreadsheetId, clientSecretFilePath, playerRookieStatusData);
 	}
 
 }

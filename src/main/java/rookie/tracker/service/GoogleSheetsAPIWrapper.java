@@ -1,4 +1,4 @@
-package main.java;
+package rookie.tracker.service;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -42,10 +42,8 @@ public class GoogleSheetsAPIWrapper {
 	 * Note: ranges are included in the ValueRange objects.
 	 * specified by the parameter 'ranges'
 	 */
-    public void UpdateBatchValues
-    (String spreadsheetId, String apiKey, String clientSecretRelativeFilePath, List<ValueRange> data) throws IOException, GeneralSecurityException
-    {
-        // TODO: Assign values to desired fields of `requestBody`:
+    public void updateBatchValues(String spreadsheetId, String clientSecretRelativeFilePath, List<ValueRange> data)
+            throws IOException, GeneralSecurityException {
         BatchUpdateValuesRequest requestBody = new BatchUpdateValuesRequest();
         requestBody.setData(data);
         requestBody.setValueInputOption("RAW");
@@ -69,10 +67,8 @@ public class GoogleSheetsAPIWrapper {
 	 * @returns a BatchGetValuesResponse object, which can be converted 
 	 * to a list of strings
 	 */
-	public BatchGetValuesResponse GetBatchValues
-	(String spreadsheetId, String apiKey, String clientSecretRelativeFilePath, List<String> ranges) 
+	public BatchGetValuesResponse getBatchValues(String spreadsheetId, String apiKey, String clientSecretRelativeFilePath, List<String> ranges)
 			throws IOException, GeneralSecurityException {
-		
 		Sheets sheetsService = createSheetsService(clientSecretRelativeFilePath);
 		
 	    Sheets.Spreadsheets.Values.BatchGet request = 
@@ -81,9 +77,8 @@ public class GoogleSheetsAPIWrapper {
 	    return request.execute();
 	  }
 	
-	private Sheets.Spreadsheets.Values.BatchGet getBatchRequest(
-			Sheets sheetsService, String spreadsheetId, String apiKey, List<String> ranges) throws IOException 
-	{
+	private Sheets.Spreadsheets.Values.BatchGet getBatchRequest(Sheets sheetsService, String spreadsheetId, String apiKey, List<String> ranges)
+			throws IOException {
 		Sheets.Spreadsheets.Values.BatchGet 
 			request = sheetsService.spreadsheets().values().batchGet(spreadsheetId);
 		
@@ -96,7 +91,7 @@ public class GoogleSheetsAPIWrapper {
 	    HttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
 	    JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
 
-	    InputStream in = (InputStream) new FileInputStream(new File(new File("").getAbsolutePath().concat("/" + clientSecretRelativeFilePath)));
+	    InputStream in = new FileInputStream(new File(new File("").getAbsolutePath().concat("/" + clientSecretRelativeFilePath)));
 	    GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(jsonFactory, new InputStreamReader(in));
 
 	    // Build flow and trigger user authorization request.
