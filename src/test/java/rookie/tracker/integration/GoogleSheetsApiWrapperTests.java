@@ -14,9 +14,9 @@ import org.junit.BeforeClass;
 import com.google.api.services.sheets.v4.model.ValueRange;
 
 import rookie.tracker.service.SecurityInfoXmlParser;
-import rookie.tracker.service.GoogleSheetsAPIWrapper;
+import rookie.tracker.service.GoogleSheetsApiWrapper;
 
-public class GoogleSheetsAPIWrapperTests {
+public class GoogleSheetsApiWrapperTests {
 
 	// MiLB Rosters Spreadsheet Data
 	private static String mSpreadsheetId;
@@ -67,7 +67,7 @@ public class GoogleSheetsAPIWrapperTests {
 		data.get(0).setValues(expectedValues);
 		data.get(0).setRange(mSingleRange2);
 		
-		GoogleSheetsAPIWrapper wrapper = new GoogleSheetsAPIWrapper();
+		GoogleSheetsApiWrapper wrapper = new GoogleSheetsApiWrapper();
 		wrapper.updateBatchValues(mSpreadsheetId, mClientSecretRelativeFilePath, data);
 		
 		List<List<Object>> actualValues = 
@@ -95,7 +95,7 @@ public class GoogleSheetsAPIWrapperTests {
 			data.add(v);
 		}
 		
-		GoogleSheetsAPIWrapper wrapper = new GoogleSheetsAPIWrapper();
+		GoogleSheetsApiWrapper wrapper = new GoogleSheetsApiWrapper();
 		wrapper.updateBatchValues(mSpreadsheetId, mClientSecretRelativeFilePath, data);
 		
 		List<List<List<Object>>> actualValuesList = new ArrayList<>();
@@ -115,7 +115,7 @@ public class GoogleSheetsAPIWrapperTests {
 			new ArrayList<>(Arrays.asList("asd asd", "FALSE"))
 		));
 		
-		GoogleSheetsAPIWrapper wrapper = new GoogleSheetsAPIWrapper();
+		GoogleSheetsApiWrapper wrapper = new GoogleSheetsApiWrapper();
 		
 		List<List<Object>> actualValues = 
 				wrapper.getBatchValues(mSpreadsheetId, mApiKey, mClientSecretRelativeFilePath, mSingleRange1)
@@ -134,7 +134,7 @@ public class GoogleSheetsAPIWrapperTests {
 			Arrays.asList(new ArrayList<>(Arrays.asList("asd asd", "FALSE")))
 		));
 		
-		GoogleSheetsAPIWrapper wrapper = new GoogleSheetsAPIWrapper();
+		GoogleSheetsApiWrapper wrapper = new GoogleSheetsApiWrapper();
 	
 		
 		List<List<List<Object>>> actualValuesList = new ArrayList<>();

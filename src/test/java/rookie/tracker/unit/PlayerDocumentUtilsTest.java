@@ -9,7 +9,7 @@ import rookie.tracker.util.PlayerDocumentUtils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class PlayerDocumentUtilsTests {
+public class PlayerDocumentUtilsTest {
 	
 	private static Document batterDoc;
 	private static Document pitcherDoc;

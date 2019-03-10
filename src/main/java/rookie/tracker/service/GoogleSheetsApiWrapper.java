@@ -25,7 +25,7 @@ import com.google.api.services.sheets.v4.model.BatchGetValuesResponse;
 import com.google.api.services.sheets.v4.model.BatchUpdateValuesRequest;
 import com.google.api.services.sheets.v4.model.ValueRange;
 
-public class GoogleSheetsAPIWrapper {
+public class GoogleSheetsApiWrapper {
 	
 	private final List<String> SCOPES = Collections.singletonList(SheetsScopes.SPREADSHEETS);
     private final String CREDENTIALS_FOLDER = "credentials"; // Directory to store user credentials.
